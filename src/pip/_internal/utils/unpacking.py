@@ -1,5 +1,4 @@
-"""Utilities related archives.
-"""
+"""Utilities related archives."""
 
 import logging
 import os
@@ -176,7 +175,7 @@ def untar_file(filename: str, location: str) -> None:
         )
         mode = "r:*"
 
-    tar = tarfile.open(filename, mode, encoding="utf-8")
+    tar = tarfile.open(filename, mode, encoding="utf-8")  # type: ignore
     try:
         leading = has_leading_dir([member.name for member in tar.getmembers()])
 
