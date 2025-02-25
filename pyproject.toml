@@ -13,7 +13,6 @@ classifiers = [
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3 :: Only",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
@@ -28,7 +27,7 @@ authors = [
 
 # NOTE: requires-python is duplicated in __pip-runner__.py.
 # When changing this value, please change the other copy as well.
-requires-python = ">=3.8"
+requires-python = ">=3.9"
 
 [project.scripts]
 pip = "pip._internal.cli.main:main"
@@ -60,8 +59,6 @@ exclude = ["contrib", "docs", "tests*", "tasks"]
 "pip" = ["py.typed"]
 "pip._vendor" = ["vendor.txt"]
 "pip._vendor.certifi" = ["*.pem"]
-"pip._vendor.requests" = ["*.pem"]
-"pip._vendor.distlib._backport" = ["sysconfig.cfg"]
 "pip._vendor.distlib" = [
     "t32.exe",
     "t64.exe",
@@ -154,6 +151,8 @@ distlib = "https://bitbucket.org/pypa/distlib/raw/master/LICENSE.txt"
 #
 
 [tool.ruff]
+# Pinned to delay pyupgrade changes (https://github.com/pypa/pip/issues/13236)
+target-version = "py38"  # Pin Ruff to Python 3.8
 src = ["src"]
 line-length = 88
 extend-exclude = [
@@ -186,6 +185,7 @@ select = [
     "W",
     "RUF100",
     "UP",
+    "FA102",  # future-required-type-annotation
 ]
 
 [tool.ruff.lint.isort]
@@ -307,10 +307,7 @@ source0 = [
 ]
 
 [tool.coverage.report]
-exclude_lines = [
-    # We must re-state the default because the `exclude_lines` option overrides
-    # it.
-    "pragma: no cover",
+exclude_also = [
     # This excludes typing-specific code, which will be validated by mypy anyway.
     "if TYPE_CHECKING",
 ]
